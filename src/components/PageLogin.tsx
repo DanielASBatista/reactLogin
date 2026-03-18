@@ -1,6 +1,6 @@
 import { LogIn, User, Lock } from 'lucide-react'
 
-function App() {
+export function LoginPage() {
 
   return (
     <div className="w-screen h-screen bg-[#4D0012] flex items-center justify-center">
@@ -67,4 +67,3 @@ function App() {
     </div>
   )
 }
-export default App

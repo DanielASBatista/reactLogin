@@ -13,6 +13,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as EditRouteImport } from './routes/edit'
 import { Route as BioRouteImport } from './routes/bio'
+import { Route as IndexRouteImport } from './routes/index'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -34,14 +35,21 @@ const BioRoute = BioRouteImport.update({
   path: '/bio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/bio': typeof BioRoute
   '/edit': typeof EditRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/bio': typeof BioRoute
   '/edit': typeof EditRoute
   '/login': typeof LoginRoute
@@ -49,6 +57,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/bio': typeof BioRoute
   '/edit': typeof EditRoute
   '/login': typeof LoginRoute
@@ -56,13 +65,14 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/bio' | '/edit' | '/login' | '/register'
+  fullPaths: '/' | '/bio' | '/edit' | '/login' | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/bio' | '/edit' | '/login' | '/register'
-  id: '__root__' | '/bio' | '/edit' | '/login' | '/register'
+  to: '/' | '/bio' | '/edit' | '/login' | '/register'
+  id: '__root__' | '/' | '/bio' | '/edit' | '/login' | '/register'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   BioRoute: typeof BioRoute
   EditRoute: typeof EditRoute
   LoginRoute: typeof LoginRoute
@@ -99,10 +109,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   BioRoute: BioRoute,
   EditRoute: EditRoute,
   LoginRoute: LoginRoute,
